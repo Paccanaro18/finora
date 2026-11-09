@@ -2,6 +2,7 @@ package com.paccanaro.finora.controller;
 
 
 import com.paccanaro.finora.dto.TransacaoRequest;
+import com.paccanaro.finora.dto.TransacaoResponse;
 import com.paccanaro.finora.entity.Transacao;
 import com.paccanaro.finora.repository.TransacaoRepository;
 import com.paccanaro.finora.service.TransacaoService;
@@ -24,26 +25,29 @@ public class TransacaoController {
     }
 
     @PostMapping
-    public ResponseEntity<Transacao> salvar(@RequestBody @Valid TransacaoRequest requisicao) {
+    public ResponseEntity<TransacaoResponse> salvar(
+            @RequestBody @Valid TransacaoRequest requisicao) {
+
         Transacao transacao = new Transacao();
+
         transacao.setValor(requisicao.valor());
         transacao.setTipo(requisicao.tipo());
         transacao.setCategoria(requisicao.categoria());
         transacao.setDescricao(requisicao.descricao());
         transacao.setDataHora(requisicao.dataHora());
-        Transacao transacaoSalva = transacaoService.salvar(transacao);
+
+        TransacaoResponse transacaoSalva = transacaoService.salvar(transacao);
 
         return ResponseEntity.ok(transacaoSalva);
     }
 
-
     @GetMapping
-    public ResponseEntity<List<Transacao>> listar(){
+    public ResponseEntity<List<TransacaoResponse>> listar() {
         return ResponseEntity.ok(transacaoService.listar());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Transacao>buscarPorId(@PathVariable UUID id){
+    public ResponseEntity<TransacaoResponse> buscarPorId(@PathVariable UUID id) {
         return ResponseEntity.ok(transacaoService.buscarPorId(id));
     }
 
@@ -53,6 +57,10 @@ public class TransacaoController {
 
         return ResponseEntity.noContent().build();
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<TransacaoResponse> atualizar(@PathVariable UUID id, @RequestBody @Valid TransacaoRequest requisicao) {
 
+        return ResponseEntity.ok(transacaoService.atualizar(id, requisicao));
+    }
 
 }

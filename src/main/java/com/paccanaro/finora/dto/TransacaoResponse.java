@@ -1,5 +1,6 @@
 package com.paccanaro.finora.dto;
 
+import com.paccanaro.finora.entity.CategoriaTransacao;
 import com.paccanaro.finora.entity.TipoTransacao;
 
 import java.math.BigDecimal;
@@ -10,7 +11,7 @@ public record TransacaoResponse(
         UUID id,
         BigDecimal valor,
         TipoTransacao tipo,
-        String categoria,
+        CategoriaTransacao categoria,
         String descricao,
         LocalDateTime dataHora
 ) {

@@ -22,8 +22,9 @@ public class Transacao {
     @Positive
     private BigDecimal valor;
 
-    @NotBlank
-    private String categoria;
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private CategoriaTransacao categoria;
 
     @NotBlank
     private String descricao;

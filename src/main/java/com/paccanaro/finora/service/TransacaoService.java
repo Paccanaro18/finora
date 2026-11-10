@@ -5,7 +5,6 @@ import com.paccanaro.finora.dto.TransacaoResponse;
 import com.paccanaro.finora.entity.TipoTransacao;
 import com.paccanaro.finora.entity.Transacao;
 import com.paccanaro.finora.exception.TratamentoErros;
-import com.paccanaro.finora.exception.TratamentoExcecao;
 import com.paccanaro.finora.repository.TransacaoRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +14,6 @@ import java.util.UUID;
 
 @Service
 public class TransacaoService {
-
 
    private  TransacaoRepository transacaoRepository;
 

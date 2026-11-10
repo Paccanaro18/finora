@@ -1,5 +1,6 @@
 package com.paccanaro.finora.dto;
 
+import com.paccanaro.finora.entity.CategoriaTransacao;
 import com.paccanaro.finora.entity.TipoTransacao;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -18,8 +19,8 @@ public record TransacaoRequest(
         @NotNull
         TipoTransacao tipo,
 
-        @NotBlank
-        String categoria,
+        @NotNull
+        CategoriaTransacao categoria,
 
         @NotBlank
         String descricao,

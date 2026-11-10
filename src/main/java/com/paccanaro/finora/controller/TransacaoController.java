@@ -1,6 +1,8 @@
 package com.paccanaro.finora.controller;
 
 
+import com.paccanaro.finora.dto.ResumoFinanceiroResponse;
+import com.paccanaro.finora.dto.SaldoResponse;
 import com.paccanaro.finora.dto.TransacaoRequest;
 import com.paccanaro.finora.dto.TransacaoResponse;
 import com.paccanaro.finora.entity.Transacao;
@@ -11,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -61,6 +64,20 @@ public class TransacaoController {
     public ResponseEntity<TransacaoResponse> atualizar(@PathVariable UUID id, @RequestBody @Valid TransacaoRequest requisicao) {
 
         return ResponseEntity.ok(transacaoService.atualizar(id, requisicao));
+    }
+    @GetMapping("/saldo")
+    public ResponseEntity<SaldoResponse> calcularSaldo() {
+        return ResponseEntity.ok(transacaoService.calcularSaldo());
+    }
+
+    @GetMapping("/resumo")
+    public ResponseEntity<ResumoFinanceiroResponse> calcularResumo(
+            @RequestParam LocalDateTime inicio,
+            @RequestParam LocalDateTime fim
+    ) {
+        return ResponseEntity.ok(
+                transacaoService.calcularResumo(inicio, fim)
+        );
     }
 
 }

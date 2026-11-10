@@ -1,4 +1,5 @@
 package com.paccanaro.finora.service;
+import com.paccanaro.finora.dto.ResumoFinanceiroResponse;
 import com.paccanaro.finora.dto.SaldoResponse;
 import com.paccanaro.finora.dto.TransacaoRequest;
 import com.paccanaro.finora.dto.TransacaoResponse;
@@ -9,6 +10,7 @@ import com.paccanaro.finora.repository.TransacaoRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -120,4 +122,32 @@ public class TransacaoService {
                 saldo
         );
     }
+
+    public ResumoFinanceiroResponse calcularResumo(
+            LocalDateTime inicio,
+            LocalDateTime fim
+    ) {
+
+        List<Transacao> transacoes =
+                transacaoRepository.findByDataHoraBetween(inicio, fim);
+
+        BigDecimal totalReceitas = transacoes.stream()
+                .filter(transacao -> transacao.getTipo() == TipoTransacao.RECEITA)
+                .map(Transacao::getValor)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        BigDecimal totalDespesas = transacoes.stream()
+                .filter(transacao -> transacao.getTipo() == TipoTransacao.DESPESA)
+                .map(Transacao::getValor)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        BigDecimal saldo = totalReceitas.subtract(totalDespesas);
+
+        return new ResumoFinanceiroResponse(
+                totalReceitas,
+                totalDespesas,
+                saldo
+        );
+    }
+
 }
